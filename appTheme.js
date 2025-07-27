@@ -32,13 +32,12 @@ const theme = {
   },
 
   fonts: {
-    arabic: {
-      fontFamily: 'Neirizi',
-      fontSize: 28,
-      lineHeight: 42,
-      textAlign: 'center',
-      color: '#006400', // Qur’anic green
-    },
+   arabic: {
+  fontFamily: 'Scheherazade',
+  fontSize: 32,
+  color: '#14532d',
+  textAlign: 'center',
+},
     englishHeader: {
       fontWeight: 'bold',
       fontSize: 18,

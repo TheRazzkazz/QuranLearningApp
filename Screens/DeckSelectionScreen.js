@@ -11,13 +11,17 @@ import backgroundImage from '../assets/backgrounds/pattern.png';
 
 const decks = [
   { id: 'core30', title: 'Core 30 Roots' },
-  // Add more decks later
+  { id: 'divineNames', title: 'Divine Names of Allah' },
 ];
 
 export default function DeckSelectionScreen({ navigation }) {
-  const handleSelectDeck = (deckId) => {
-    navigation.navigate('Flashcards', { deckId });
-  };
+const handleSelectDeck = (deckId) => {
+  if (deckId === 'core30') {
+    navigation.navigate('FlashcardScreen', { deckId });
+  } else if (deckId === 'divineNames') {
+    navigation.navigate('DivineNamesScreen');
+  }
+};
 
   return (
     <ImageBackground source={backgroundImage} style={styles.background}>

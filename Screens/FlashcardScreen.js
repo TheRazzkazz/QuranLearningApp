@@ -26,6 +26,12 @@ export default function FlashcardScreen() {
     setShowEnglish(false);
     setIndex((prevIndex) => (prevIndex + 1) % deckData.length);
   };
+  const handlePrevious = () => {
+  setShowEnglish(false);
+  setIndex((prevIndex) =>
+    prevIndex === 0 ? deckData.length - 1 : prevIndex - 1
+  );
+};
 
   return (
     <ImageBackground
@@ -35,39 +41,70 @@ export default function FlashcardScreen() {
       imageStyle={{ opacity: 1 }}
     >
       <View style={styles.content}>
-        <TouchableOpacity
-          style={styles.card}
-          onPress={() => setShowEnglish(!showEnglish)}
-        >
-          {showEnglish ? (
-            <>
-              <Text style={styles.english}>{currentCard.meaning}</Text>
+        {currentCard ? (
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => setShowEnglish(!showEnglish)}
+          >
+            {showEnglish ? (
+              <>
+                <Text style={styles.english}>{currentCard.meaning}</Text>
 
-              <Text style={styles.derivedLabel}>Derived Words:</Text>
-              <View style={styles.derivedContainer}>
-                {currentCard.derived_words?.map((word, index) => {
-                  const [arabic, english] = word.split(' – ');
-                  return (
-                    <View key={index} style={{ marginBottom: theme.spacing.xs }}>
-                      <Text style={styles.derivedArabic}>{arabic.trim()}</Text>
-                      <Text style={styles.derivedEnglish}>({english.trim()})</Text>
+                <Text style={styles.metaLabel}>Theme:</Text>
+                <Text style={styles.metaValue}>{currentCard.theme || '—'}</Text>
+
+                <Text style={styles.metaLabel}>Frequency:</Text>
+                <Text style={styles.metaValue}>
+                  {currentCard.frequency ? `${currentCard.frequency}` : '—'}
+                </Text>
+
+                {currentCard.derived_words?.length ? (
+                  <>
+                    <Text style={styles.derivedLabel}>Derived Words:</Text>
+                    <View style={styles.derivedContainer}>
+                      {currentCard.derived_words.map((word, index) => {
+                        if (typeof word !== 'string' || !word.includes(' – ')) return null;
+
+                        const [arabic, english] = word.split(' – ');
+                        return (
+                          <View key={index} style={{ marginBottom: theme.spacing.xs }}>
+                            <Text style={styles.derivedArabic}>{arabic.trim()}</Text>
+                            <Text style={styles.derivedEnglish}>({english.trim()})</Text>
+                          </View>
+                        );
+                      })}
                     </View>
-                  );
-                })}
-              </View>
+                  </>
+                ) : null}
+              </>
+            ) : (
+              <>
+  <Text style={styles.arabic}>{currentCard.root}</Text>
 
-              <Text style={styles.reflectionPrompt}>
-                {currentCard.reflection_prompt}
-              </Text>
-            </>
-          ) : (
-            <Text style={styles.arabic}>{currentCard.root}</Text>
-          )}
-        </TouchableOpacity>
+  {currentCard.root && (
+    <Text style={styles.rootSplit}>
+      {currentCard.root.replace(/[\u064B-\u0652]/g, '').split('').join(' – ')}
+    </Text>
+  )}
+</>
+            )}
+          </TouchableOpacity>
+        ) : (
+          <Text style={{ color: 'red', padding: 20 }}>
+            ⚠️ No flashcard loaded. Something went wrong.
+          </Text>
+        )}
 
-        <TouchableOpacity onPress={handleNext} style={styles.button}>
-          <Text style={styles.buttonText}>Next Card</Text>
-        </TouchableOpacity>
+<View style={styles.buttonRow}>
+  <TouchableOpacity onPress={handlePrevious} style={styles.button}>
+    <Text style={styles.buttonText}>Previous</Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity onPress={handleNext} style={styles.button}>
+    <Text style={styles.buttonText}>Next</Text>
+  </TouchableOpacity>
+</View>
+
       </View>
     </ImageBackground>
   );
@@ -104,6 +141,19 @@ const styles = StyleSheet.create({
     color: theme.colors.textDark,
     textAlign: 'center',
   },
+  metaLabel: {
+    fontSize: theme.fontSize.small,
+    fontWeight: 'bold',
+    color: theme.colors.primary,
+    marginTop: theme.spacing.md,
+    textAlign: 'center',
+  },
+  metaValue: {
+    fontSize: theme.fontSize.small,
+    color: theme.colors.textDark,
+    textAlign: 'center',
+    marginBottom: theme.spacing.sm,
+  },
   derivedLabel: {
     marginTop: theme.spacing.md,
     fontWeight: 'bold',
@@ -125,13 +175,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: theme.spacing.xs,
   },
-  reflectionPrompt: {
-    fontSize: theme.fontSize.small,
-    color: theme.colors.textDark,
-    fontStyle: 'italic',
-    marginTop: theme.spacing.md,
-    textAlign: 'center',
-  },
   button: {
     backgroundColor: theme.colors.primary,
     paddingVertical: theme.spacing.sm,
@@ -144,4 +187,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: theme.fontSize.medium,
   },
+    rootSplit: {
+    fontSize: theme.fontSize.medium,
+    color: theme.colors.secondary,
+    textAlign: 'center',
+    marginTop: theme.spacing.xs,
+    fontFamily: 'Scheherazade',
+  },
+
 });

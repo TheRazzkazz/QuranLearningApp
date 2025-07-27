@@ -8,6 +8,9 @@ import * as Font from 'expo-font';
 import MainMenuScreen from './Screens/MainMenuScreen';
 import FlashcardScreen from './Screens/FlashcardScreen';
 import DeckSelectionScreen from './Screens/DeckSelectionScreen';
+import DivineNamesScreen from './Screens/DivineNamesScreen';
+import NameDetailScreen from './Screens/NameDetailScreen';
+
 
 // ✅ Correct placement: Declare stack outside of component
 const Stack = createNativeStackNavigator();
@@ -17,7 +20,7 @@ export default function App() {
 
   useEffect(() => {
     Font.loadAsync({
-      'Neirizi': require('./assets/fonts/Neirizi.ttf'),
+      'Scheherazade': require('./assets/fonts/ScheherazadeNew-Regular.ttf'),
     }).then(() => setFontsLoaded(true));
   }, []);
 
@@ -75,7 +78,7 @@ export default function App() {
         />
 
         <Stack.Screen
-          name="Flashcards"
+          name="FlashcardScreen"
           component={FlashcardScreen}
           options={({ navigation }) => ({
             headerTitle: () => (
@@ -91,20 +94,58 @@ export default function App() {
               >
                 <Text style={styles.headerTextGreen}>Main Menu</Text>
               </TouchableOpacity>
+ ),
+          })}
+        />
+        <Stack.Screen
+  name="DivineNamesScreen"
+  component={DivineNamesScreen}
+  options={({ navigation }) => ({
+    headerTitle: () => (
+      <View style={styles.headerBubble}>
+        <Text style={styles.headerTextGreen}>Divine Names</Text>
+      </View>
+    ),
+    headerBackTitle: '',
+    headerLeft: () => (
+      <TouchableOpacity
+        onPress={() => navigation.navigate('DeckSelection')}
+        style={styles.headerButton}
+      >
+        <Text style={styles.headerTextGreen}>Back</Text>
+      </TouchableOpacity>
+    ),
+  })}
+/>
+
+        <Stack.Screen
+          name="NameDetailScreen"
+          component={NameDetailScreen}
+          options={({ navigation }) => ({
+            headerTitle: () => (
+              <View style={styles.headerBubble}>
+                <Text style={styles.headerTextGreen}>Name Detail</Text>
+              </View>
+            ),
+            headerBackTitle: '',
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={styles.headerButton}
+              >
+                <Text style={styles.headerTextGreen}>Back</Text>
+              </TouchableOpacity>
             ),
           })}
         />
       </Stack.Navigator>
+
       <StatusBar style="auto" />
     </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  appContainer: {
-    flex: 1,
-    backgroundColor: 'transparent',
-  },
   headerBubble: {
     backgroundColor: '#ffffff',
     paddingHorizontal: 12,
@@ -129,4 +170,3 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
-
