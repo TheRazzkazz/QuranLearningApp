@@ -1,0 +1,132 @@
+import { StatusBar } from 'expo-status-bar';
+import React, { useState, useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import * as Font from 'expo-font';
+
+import MainMenuScreen from './Screens/MainMenuScreen';
+import FlashcardScreen from './Screens/FlashcardScreen';
+import DeckSelectionScreen from './Screens/DeckSelectionScreen';
+
+// ✅ Correct placement: Declare stack outside of component
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    Font.loadAsync({
+      'Neirizi': require('./assets/fonts/Neirizi.ttf'),
+    }).then(() => setFontsLoaded(true));
+  }, []);
+
+  if (!fontsLoaded) return null;
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="MainMenu"
+        screenOptions={{
+          headerStyle: { backgroundColor: 'transparent' },
+          headerTitleStyle: { fontWeight: 'bold', fontSize: 20, color: '#ffffff' },
+          headerTintColor: '#ffffff',
+          headerTransparent: true,
+        }}
+      >
+        <Stack.Screen
+          name="MainMenu"
+          component={MainMenuScreen}
+          options={({ navigation }) => ({
+            headerTitle: () => (
+              <View style={styles.headerBubble}>
+                <Text style={styles.headerTextDark}>Quranic Words - Main Menu</Text>
+              </View>
+            ),
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Flashcards')}
+                style={styles.headerButton}
+              >
+                <Text style={styles.headerTextDark}>Flashcards</Text>
+              </TouchableOpacity>
+            ),
+          })}
+        />
+
+        <Stack.Screen
+          name="DeckSelection"
+          component={DeckSelectionScreen}
+          options={({ navigation }) => ({
+            headerTitle: () => (
+              <View style={styles.headerBubble}>
+                <Text style={styles.headerTextDark}>Choose a Deck</Text>
+              </View>
+            ),
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('MainMenu')}
+                style={styles.headerButton}
+              >
+                <Text style={styles.headerTextDark}>Main Menu</Text>
+              </TouchableOpacity>
+            ),
+          })}
+        />
+
+        <Stack.Screen
+          name="Flashcards"
+          component={FlashcardScreen}
+          options={({ navigation }) => ({
+            headerTitle: () => (
+              <View style={styles.headerBubble}>
+                <Text style={styles.headerTextGreen}>Flashcards</Text>
+              </View>
+            ),
+            headerBackTitle: '',
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('MainMenu')}
+                style={styles.headerButton}
+              >
+                <Text style={styles.headerTextGreen}>Main Menu</Text>
+              </TouchableOpacity>
+            ),
+          })}
+        />
+      </Stack.Navigator>
+      <StatusBar style="auto" />
+    </NavigationContainer>
+  );
+}
+
+const styles = StyleSheet.create({
+  appContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+  },
+  headerBubble: {
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  headerButton: {
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+    marginLeft: 10,
+  },
+  headerTextDark: {
+    color: '#14532d',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  headerTextGreen: {
+    color: '#006400',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+});
+
