@@ -17,7 +17,7 @@ export default function DivineNamesScreen({ navigation }) {
     setExpandedId((prevId) => (prevId === id ? null : id));
   };
 
-  const renderItem = ({ item }) => {
+const renderItem = ({ item }) => {
   const isExpanded = expandedId === item.id;
 
   return (
@@ -43,7 +43,9 @@ export default function DivineNamesScreen({ navigation }) {
           {item.sampleVerse && (
             <View style={styles.detailBlock}>
               <Text style={styles.label}>Verse:</Text>
-              <Text style={styles.value}>{item.sampleVerse}</Text>
+              <View style={styles.verseBox}>
+                <Text style={styles.arabicVerse}>{item.sampleVerse}</Text>
+              </View>
             </View>
           )}
         </View>
@@ -106,6 +108,14 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 10,
     textAlign: 'center',
+  },
+    arabicVerse: {
+    fontFamily: 'Scheherazade', // Same font as your arabicName
+    fontSize: 20, // Slightly smaller than the main Arabic name
+    color: '#14532d',
+    textAlign: 'center',
+    lineHeight: 36, // Better for Arabic script display
+    marginTop: 8,
   },
   details: {
     marginTop: 12,
