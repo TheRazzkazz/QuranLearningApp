@@ -6,13 +6,12 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import * as Font from 'expo-font';
 
 import MainMenuScreen from './Screens/MainMenuScreen';
-import FlashcardScreen from './Screens/FlashcardScreen';
+import RootWordsScreen from './Screens/RootWordsScreen';
 import DeckSelectionScreen from './Screens/DeckSelectionScreen';
 import DivineNamesScreen from './Screens/DivineNamesScreen';
 import NameDetailScreen from './Screens/NameDetailScreen';
+import RootWordsDetailScreen from './Screens/RootWordsDetailScreen';
 
-
-// ✅ Correct placement: Declare stack outside of component
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -37,24 +36,18 @@ export default function App() {
           headerTransparent: true,
         }}
       >
+
         <Stack.Screen
           name="MainMenu"
           component={MainMenuScreen}
-          options={({ navigation }) => ({
+          options={{
             headerTitle: () => (
               <View style={styles.headerBubble}>
-                <Text style={styles.headerTextDark}>Quranic Words - Main Menu</Text>
+                <Text style={styles.bismillahArabic}>﷽</Text>
               </View>
             ),
-            headerLeft: () => (
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Flashcards')}
-                style={styles.headerButton}
-              >
-                <Text style={styles.headerTextDark}>Flashcards</Text>
-              </TouchableOpacity>
-            ),
-          })}
+            headerBackVisible: false,
+          }}
         />
 
         <Stack.Screen
@@ -78,12 +71,12 @@ export default function App() {
         />
 
         <Stack.Screen
-          name="FlashcardScreen"
-          component={FlashcardScreen}
+          name="RootWordsScreen"
+          component={RootWordsScreen}
           options={({ navigation }) => ({
             headerTitle: () => (
               <View style={styles.headerBubble}>
-                <Text style={styles.headerTextGreen}>Flashcards</Text>
+                <Text style={styles.headerTextGreen}>RootWords</Text>
               </View>
             ),
             headerBackTitle: '',
@@ -94,29 +87,51 @@ export default function App() {
               >
                 <Text style={styles.headerTextGreen}>Main Menu</Text>
               </TouchableOpacity>
- ),
+            ),
           })}
         />
+
         <Stack.Screen
-  name="DivineNamesScreen"
-  component={DivineNamesScreen}
-  options={({ navigation }) => ({
-    headerTitle: () => (
-      <View style={styles.headerBubble}>
-        <Text style={styles.headerTextGreen}>Divine Names</Text>
-      </View>
-    ),
-    headerBackTitle: '',
-    headerLeft: () => (
-      <TouchableOpacity
-        onPress={() => navigation.navigate('DeckSelection')}
-        style={styles.headerButton}
-      >
-        <Text style={styles.headerTextGreen}>Back</Text>
-      </TouchableOpacity>
-    ),
-  })}
-/>
+          name="RootWordsDetail"
+          component={RootWordsDetailScreen}
+          options={({ navigation }) => ({
+            headerTitle: () => (
+              <View style={styles.headerBubble}>
+                <Text style={styles.headerTextGreen}>Root Word Detail</Text>
+              </View>
+            ),
+            headerBackTitle: '',
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={styles.headerButton}
+              >
+                <Text style={styles.headerTextGreen}>Back</Text>
+              </TouchableOpacity>
+            ),
+          })}
+        />
+
+        <Stack.Screen
+          name="DivineNamesScreen"
+          component={DivineNamesScreen}
+          options={({ navigation }) => ({
+            headerTitle: () => (
+              <View style={styles.headerBubble}>
+                <Text style={styles.headerTextGreen}>Divine Names</Text>
+              </View>
+            ),
+            headerBackTitle: '',
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('DeckSelection')}
+                style={styles.headerButton}
+              >
+                <Text style={styles.headerTextGreen}>Back</Text>
+              </TouchableOpacity>
+            ),
+          })}
+        />
 
         <Stack.Screen
           name="NameDetailScreen"
@@ -168,5 +183,11 @@ const styles = StyleSheet.create({
     color: '#006400',
     fontWeight: 'bold',
     fontSize: 18,
+  },
+  bismillahArabic: {
+    fontSize: 28,
+    fontFamily: 'Scheherazade',
+    color: '#14532d',
+    textAlign: 'center',
   },
 });

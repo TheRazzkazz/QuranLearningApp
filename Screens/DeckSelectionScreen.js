@@ -4,8 +4,8 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  FlatList,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 import backgroundImage from '../assets/backgrounds/pattern.png';
 
@@ -15,62 +15,62 @@ const decks = [
 ];
 
 export default function DeckSelectionScreen({ navigation }) {
-const handleSelectDeck = (deckId) => {
-  if (deckId === 'core30') {
-    navigation.navigate('FlashcardScreen', { deckId });
-  } else if (deckId === 'divineNames') {
-    navigation.navigate('DivineNamesScreen');
-  }
-};
+  const handleSelectDeck = (deckId) => {
+    if (deckId === 'core30') {
+      navigation.navigate('RootWordsScreen', { deckId });
+    } else if (deckId === 'divineNames') {
+      navigation.navigate('DivineNamesScreen');
+    }
+  };
 
   return (
-    <ImageBackground source={backgroundImage} style={styles.background}>
-      <View style={styles.container}>
-        <Text style={styles.heading}>Choose a Deck</Text>
-        <FlatList
-          data={decks}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.deckButton}
-              onPress={() => handleSelectDeck(item.id)}
-            >
-              <Text style={styles.deckText}>{item.title}</Text>
-            </TouchableOpacity>
-          )}
-        />
+    <ImageBackground source={backgroundImage} style={styles.background} resizeMode="cover">
+      <View style={styles.centeredContainer}>
+        {decks.map((deck) => (
+          <TouchableOpacity
+            key={deck.id}
+            style={styles.deckButton}
+            onPress={() => handleSelectDeck(deck.id)}
+          >
+            <Text style={styles.deckText}>{deck.title}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
     </ImageBackground>
   );
 }
 
+const { width, height } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   background: {
     flex: 1,
   },
-  container: {
+  centeredContainer: {
     flex: 1,
-    padding: 20,
+    justifyContent: 'center',
     alignItems: 'center',
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#14532d',
-    marginBottom: 20,
+    paddingHorizontal: 20,
   },
   deckButton: {
-    backgroundColor: 'white',
+    backgroundColor: '#ffffff',
     borderColor: '#14532d',
     borderWidth: 2,
     borderRadius: 16,
-    paddingVertical: 12,
+    paddingVertical: 16,
     paddingHorizontal: 24,
-    marginBottom: 16,
+    marginVertical: 12,
+    width: width * 0.85,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 4,
   },
   deckText: {
     color: '#14532d',
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
     textAlign: 'center',
   },
