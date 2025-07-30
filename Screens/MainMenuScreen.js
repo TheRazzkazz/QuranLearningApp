@@ -21,13 +21,20 @@ export default function MainMenuScreen({ navigation }) {
           <Text style={styles.titleText}>Quranic Words</Text>
         </View>
 
-<TouchableOpacity
-  style={styles.button}
-  onPress={() => navigation.navigate('DeckSelection')}
->
-  <Text style={styles.buttonText}>Choose a Deck</Text>
-</TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('DeckSelection')}
+        >
+          <Text style={styles.buttonText}>Choose a Deck</Text>
+        </TouchableOpacity>
 
+        {/* ✅ Matching Test Button for Lesson Path */}
+        <TouchableOpacity
+          style={[styles.button, { marginTop: 16 }]} // Space between buttons
+          onPress={() => navigation.navigate('LessonPath')}
+        >
+          <Text style={styles.buttonText}>Begin Journey</Text>
+        </TouchableOpacity>
       </View>
     </ImageBackground>
   );
@@ -46,18 +53,18 @@ const styles = StyleSheet.create({
   },
 
   titleBox: {
-    backgroundColor: 'white',          // ✅ Force solid white background
+    backgroundColor: 'white',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: '#14532d',            // Deep green border
+    borderColor: '#14532d',
     marginBottom: 24,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 5,                       // iOS shadow backup
+    elevation: 5,
   },
 
   titleText: {

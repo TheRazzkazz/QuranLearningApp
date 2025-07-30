@@ -1,69 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
-  FlatList,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
   ImageBackground,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import DivineNames from '../data/DivineNamesDeck.js';
 import backgroundImage from '../assets/backgrounds/pattern.png';
 
-export default function DivineNamesScreen({ navigation }) {
-  const [expandedId, setExpandedId] = useState(null);
-
-  const toggleCard = (id) => {
-    setExpandedId((prevId) => (prevId === id ? null : id));
-  };
-
-const renderItem = ({ item }) => {
-  const isExpanded = expandedId === item.id;
+export default function DivineNamesScreen() {
+  const navigation = useNavigation();
 
   return (
-    <TouchableOpacity onPress={() => toggleCard(item.id)} style={styles.card}>
-      <Text style={styles.arabic}>{item.arabicName}</Text>
-
-      {isExpanded && (
-        <View style={styles.details}>
-          <Text style={styles.english}>{item.englishMeaning}</Text>
-
-          <View style={styles.detailBlock}>
-            <Text style={styles.label}>Root:</Text>
-            <Text style={styles.value}>{item.rootLetters}</Text>
-          </View>
-
-          <View style={styles.detailBlock}>
-            <Text style={styles.label}>Related Words:</Text>
-            <Text style={styles.value}>
-              {(item.relatedWords || []).join('، ')}
-            </Text>
-          </View>
-
-          {item.sampleVerse && (
-            <View style={styles.detailBlock}>
-              <Text style={styles.label}>Verse:</Text>
-              <View style={styles.verseBox}>
-                <Text style={styles.arabicVerse}>{item.sampleVerse}</Text>
-              </View>
-            </View>
-          )}
-        </View>
-      )}
-    </TouchableOpacity>
-  );
-};
-
-  return (
-    <ImageBackground source={backgroundImage} style={styles.background}>
+    <ImageBackground source={backgroundImage} style={styles.background} resizeMode="cover">
       <View style={styles.container}>
         <Text style={styles.heading}>99 Names of Allah</Text>
-        <FlatList
-          data={DivineNames}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-          contentContainerStyle={styles.list}
-        />
+
+        <ScrollView contentContainerStyle={styles.gridContainer}>
+          {DivineNames.map((name) => (
+            <TouchableOpacity
+              key={name.id}
+              style={styles.card}
+              onPress={() => navigation.navigate('DivineNamesDetail', { name })}
+            >
+              <Text style={styles.arabic}>{name.arabicName}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
       </View>
     </ImageBackground>
   );
@@ -84,71 +50,27 @@ const styles = StyleSheet.create({
     color: '#14532d',
     marginBottom: 16,
   },
-  list: {
+  gridContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
     paddingBottom: 100,
+    paddingHorizontal: 10,
+    width: '100%',
   },
   card: {
     backgroundColor: 'white',
-    borderRadius: 16,
+    borderRadius: 12,
     borderWidth: 2,
     borderColor: '#14532d',
     padding: 16,
     marginBottom: 12,
-    width: 300,
+    width: '48%',
     alignItems: 'center',
   },
   arabic: {
     fontSize: 28,
-    color: '#14532d',
     fontFamily: 'Scheherazade',
-  },
-  english: {
-    fontSize: 16,
     color: '#14532d',
-    marginTop: 4,
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-    arabicVerse: {
-    fontFamily: 'Scheherazade', // Same font as your arabicName
-    fontSize: 20, // Slightly smaller than the main Arabic name
-    color: '#14532d',
-    textAlign: 'center',
-    lineHeight: 36, // Better for Arabic script display
-    marginTop: 8,
-  },
-  details: {
-    marginTop: 12,
-    alignItems: 'center',
-    width: '100%',
-  },
-  detailBlock: {
-    marginTop: 8,
-    width: '100%',
-  },
-  label: {
-    fontWeight: 'bold',
-    color: '#006400',
-    marginBottom: 2,
-  },
-  value: {
-    color: '#14532d',
-  },
-  verseBox: {
-    backgroundColor: '#f0fdf4',
-    borderWidth: 1,
-    borderColor: '#14532d',
-    borderRadius: 8,
-    padding: 10,
-    marginTop: 6,
-  },
-  verseRef: {
-    fontWeight: 'bold',
-    marginBottom: 4,
-    color: '#006400',
-  },
-  verseText: {
-    color: '#14532d',
-    fontSize: 14,
   },
 });

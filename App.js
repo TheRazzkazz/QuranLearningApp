@@ -11,6 +11,8 @@ import DeckSelectionScreen from './Screens/DeckSelectionScreen';
 import DivineNamesScreen from './Screens/DivineNamesScreen';
 import NameDetailScreen from './Screens/NameDetailScreen';
 import RootWordsDetailScreen from './Screens/RootWordsDetailScreen';
+import DivineNamesDetailScreen from './Screens/DivineNamesDetailScreen';
+import LessonPathScreen from './Screens/LessonPathScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +52,26 @@ export default function App() {
           }}
         />
 
+        <Stack.Screen
+  name="LessonPath"
+  component={LessonPathScreen}
+  options={({ navigation }) => ({
+    headerTitle: () => (
+      <View style={styles.headerBubble}>
+        <Text style={styles.headerTextGreen}>Journey</Text>
+      </View>
+    ),
+    headerBackTitle: '',
+    headerLeft: () => (
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.headerButton}
+      >
+        <Text style={styles.headerTextGreen}>Back</Text>
+      </TouchableOpacity>
+    ),
+  })}
+/>
         <Stack.Screen
           name="DeckSelection"
           component={DeckSelectionScreen}
@@ -133,6 +155,26 @@ export default function App() {
           })}
         />
 
+        <Stack.Screen
+  name="DivineNamesDetail"
+  component={DivineNamesDetailScreen}
+  options={({ navigation }) => ({
+    headerTitle: () => (
+      <View style={styles.headerBubble}>
+        <Text style={styles.headerTextGreen}>Name Detail</Text>
+      </View>
+    ),
+    headerBackTitle: '',
+    headerLeft: () => (
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.headerButton}
+      >
+        <Text style={styles.headerTextGreen}>Back</Text>
+      </TouchableOpacity>
+    ),
+  })}
+/>
         <Stack.Screen
           name="NameDetailScreen"
           component={NameDetailScreen}

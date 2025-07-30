@@ -10,43 +10,35 @@ import {
 import { useRoute } from '@react-navigation/native';
 import backgroundImage from '../assets/backgrounds/pattern.png';
 
-export default function RootWordsDetailScreen() {
+export default function DivineNamesDetailScreen() {
   const route = useRoute();
-  const { word } = route.params;
+  const { name } = route.params;
 
   return (
     <ImageBackground source={backgroundImage} style={styles.background} resizeMode="cover">
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.spacer} />
 
-        {/* Root and Meaning */}
+        {/* Name and Meaning */}
         <View style={styles.whiteBox}>
-          <Text style={styles.arabicLarge}>{word.root}</Text>
-          <Text style={styles.english}>{word.meaning}</Text>
+          <Text style={styles.arabicLarge}>{name.arabicName}</Text>
+          <Text style={styles.english}>{name.englishMeaning}</Text>
         </View>
 
-        {/* Theme */}
+        {/* Root Letters */}
         <View style={styles.whiteBox}>
-          <Text style={styles.label}>Theme</Text>
-          <Text style={styles.value}>{word.theme || '—'}</Text>
-        </View>
-
-        {/* Frequency */}
-        <View style={styles.whiteBox}>
-          <Text style={styles.label}>Frequency</Text>
-          <Text style={styles.value}>
-            {word.frequency ? `${word.frequency}x` : '—'}
-          </Text>
+          <Text style={styles.label}>Root Letters</Text>
+          <Text style={styles.value}>{name.rootLetters || '—'}</Text>
         </View>
 
         {/* Derived Words */}
-        {word.derived_words?.length > 0 && (
+        {name.derived_words?.length > 0 && (
           <View style={styles.whiteBox}>
             <Text style={styles.label}>Derived Words</Text>
-            {word.derived_words.map((entry, idx) => {
-              const parts = entry.split(' – ');
+            {name.derived_words.map((entry, idx) => {
+              const parts = entry.split(' (');
               const arabicPart = parts[0]?.trim();
-              const englishPart = parts.length > 1 ? parts[1]?.trim() : null;
+              const englishPart = parts.length > 1 ? parts[1].replace(')', '').trim() : null;
 
               return (
                 <View key={idx} style={styles.derivedItem}>
@@ -59,12 +51,12 @@ export default function RootWordsDetailScreen() {
         )}
 
         {/* Sample Verse */}
-        {word.sampleVerse && (
+        {name.sampleVerse && (
           <View style={styles.verseBox}>
             <Text style={styles.label}>Qur'anic Sample Verse</Text>
-            <Text style={styles.verseArabic}>{word.sampleVerse.arabic}</Text>
-            <Text style={styles.verseTranslation}>{word.sampleVerse.translation}</Text>
-            <Text style={styles.verseReference}>{word.sampleVerse.reference}</Text>
+            <Text style={styles.verseArabic}>{name.sampleVerse.arabic}</Text>
+            <Text style={styles.verseTranslation}>{name.sampleVerse.translation}</Text>
+            <Text style={styles.verseReference}>{name.sampleVerse.reference}</Text>
           </View>
         )}
 
@@ -110,13 +102,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#dcdcdc',
     borderWidth: 1,
-  },
-  arabic: {
-    fontSize: 48,
-    fontFamily: 'Scheherazade',
-    color: '#14532d',
-    textAlign: 'center',
-    marginBottom: 8,
   },
   arabicLarge: {
     fontSize: 56,
