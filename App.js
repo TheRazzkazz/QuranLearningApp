@@ -13,6 +13,9 @@ import NameDetailScreen from './Screens/NameDetailScreen';
 import RootWordsDetailScreen from './Screens/RootWordsDetailScreen';
 import DivineNamesDetailScreen from './Screens/DivineNamesDetailScreen';
 import LessonPathScreen from './Screens/LessonPathScreen';
+import LessonActivityEngine from './Screens/LessonActivityEngine';
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -52,24 +55,11 @@ export default function App() {
           }}
         />
 
-        <Stack.Screen
+<Stack.Screen
   name="LessonPath"
   component={LessonPathScreen}
   options={({ navigation }) => ({
-    headerTitle: () => (
-      <View style={styles.headerBubble}>
-        <Text style={styles.headerTextGreen}>Journey</Text>
-      </View>
-    ),
-    headerBackTitle: '',
-    headerLeft: () => (
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.headerButton}
-      >
-        <Text style={styles.headerTextGreen}>Back</Text>
-      </TouchableOpacity>
-    ),
+    headerShown: false, // You can toggle this or use headerLeft here if needed
   })}
 />
         <Stack.Screen
@@ -91,6 +81,26 @@ export default function App() {
             ),
           })}
         />
+        <Stack.Screen
+
+  name="LessonActivityEngine"
+  component={LessonActivityEngine}
+  options={({ navigation }) => ({
+    headerTitle: () => (
+      <View style={styles.headerBubble}>
+        <Text style={styles.headerTextDark}>Lesson</Text>
+      </View>
+    ),
+    headerLeft: () => (
+      <TouchableOpacity
+        onPress={() => navigation.navigate('LessonPath')}
+        style={styles.headerButton}
+      >
+        <Text style={styles.headerTextDark}>Back to Path</Text>
+      </TouchableOpacity>
+    ),
+  })}
+/>
 
         <Stack.Screen
           name="RootWordsScreen"

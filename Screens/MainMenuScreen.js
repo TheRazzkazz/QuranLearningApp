@@ -21,6 +21,7 @@ export default function MainMenuScreen({ navigation }) {
           <Text style={styles.titleText}>Quranic Words</Text>
         </View>
 
+        {/* ✅ Button to Flashcard Decks */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('DeckSelection')}
@@ -28,9 +29,9 @@ export default function MainMenuScreen({ navigation }) {
           <Text style={styles.buttonText}>Choose a Deck</Text>
         </TouchableOpacity>
 
-        {/* ✅ Matching Test Button for Lesson Path */}
+        {/* ✅ Button to Lesson Path Journey */}
         <TouchableOpacity
-          style={[styles.button, { marginTop: 16 }]} // Space between buttons
+          style={[styles.button, { marginTop: 16 }]} // Add space between buttons
           onPress={() => navigation.navigate('LessonPath')}
         >
           <Text style={styles.buttonText}>Begin Journey</Text>
@@ -51,7 +52,6 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: 'transparent',
   },
-
   titleBox: {
     backgroundColor: 'white',
     paddingVertical: 12,
@@ -66,14 +66,12 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-
   titleText: {
     color: '#14532d',
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
   },
-
   button: {
     paddingVertical: 12,
     paddingHorizontal: 24,
@@ -82,7 +80,6 @@ const styles = StyleSheet.create({
     borderColor: '#14532d',
     backgroundColor: 'white',
   },
-
   buttonText: {
     color: '#14532d',
     fontSize: 18,
